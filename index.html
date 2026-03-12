@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Budget Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#f4f4f4;
+}
+
+.container{
+background:white;
+width:300px;
+margin:auto;
+margin-top:50px;
+padding:20px;
+border-radius:10px;
+}
+
+input{
+width:80%;
+padding:10px;
+margin:5px;
+}
+
+button{
+padding:10px 20px;
+background:#2196F3;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+ul{
+text-align:left;
+padding-left:20px;
+}
+
+.income{
+color:green;
+}
+
+.expense{
+color:red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Budget Tracker</h2>
+
+<input id="desc" placeholder="Description">
+<input id="amount" type="number" placeholder="Amount">
+
+<br>
+
+<button onclick="addEntry()">Add</button>
+
+<h3>Balance: <span id="balance">0</span></h3>
+
+<ul id="list"></ul>
+
+</div>
+
+<script>
+
+let entries=[]
+
+function addEntry(){
+
+let desc=document.getElementById("desc").value
+let amount=Number(document.getElementById("amount").value)
+
+if(desc=="" || amount==0) return
+
+entries.push({desc,amount})
+
+document.getElementById("desc").value=""
+document.getElementById("amount").value=""
+
+render()
+
+}
+
+function deleteEntry(index){
+
+entries.splice(index,1)
+
+render()
+
+}
+
+function render(){
+
+let list=document.getElementById("list")
+list.innerHTML=""
+
+let total=0
+
+entries.forEach((e,i)=>{
+
+let li=document.createElement("li")
+
+li.className=e.amount>=0?"income":"expense"
+
+li.innerHTML=`${e.desc}: ${e.amount} 
+<button onclick="deleteEntry(${i})">x</button>`
+
+list.appendChild(li)
+
+total+=e.amount
+
+})
+
+document.getElementById("balance").innerText=total
+
+}
+
+</script>
+
+</body>
+</html>
